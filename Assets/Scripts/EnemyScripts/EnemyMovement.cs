@@ -1,16 +1,18 @@
 using UnityEngine;
 
-
 public class EnemyMovement : MonoBehaviour
 {
     public Transform target;
     public float moveSpeed = 2f;
     private Rigidbody2D rb;
     private bool isFacingRight = true;
+    private Animator animator; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>(); 
+
         if (target == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
@@ -20,7 +22,10 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (target == null) return;
+        if (target == null)
+        {
+            return;
+        }
 
         float direction = target.position.x - transform.position.x;
 
