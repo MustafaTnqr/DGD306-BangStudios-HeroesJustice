@@ -6,6 +6,10 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        
+        float angle = Mathf.Atan2(GetComponent<Rigidbody2D>().velocity.y, GetComponent<Rigidbody2D>().velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
         Destroy(gameObject, lifetime);
     }
 
@@ -13,8 +17,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            Destroy(collision.gameObject); 
-            Destroy(gameObject); 
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
     }
 }

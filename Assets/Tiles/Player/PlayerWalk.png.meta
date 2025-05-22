@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 906b07e1efb827d4386f5a87998271b7
+guid: aa2382fac0b288e43975ebafe5fec7ed
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,12 +97,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Idle_0
+      name: char1walkanim-Sheet_0
       rect:
         serializedVersion: 2
-        x: 9
+        x: 8
         y: 0
-        width: 35
+        width: 36
         height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ecb33b7117992f4cb924c9f0f5530f0
-      internalID: -2035255606
+      spriteID: 3ef0e7ad7add6c3419e0e73ec8f73ccb
+      internalID: 1471438321
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Idle_1
+      name: char1walkanim-Sheet_1
       rect:
         serializedVersion: 2
-        x: 73
+        x: 72
         y: 0
-        width: 35
-        height: 63
+        width: 36
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,8 +132,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f2e922985932bf4c8a23f5bc1b136b9
-      internalID: 1117868959
+      spriteID: 3bb75ec030c2c1f438e16a88d70796f5
+      internalID: -1033772634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: char1walkanim-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 0
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af53e3c9f2d59e54583ea841866f4a6c
+      internalID: 1591624612
       vertices: []
       indices: 
       edges: []
@@ -149,8 +170,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Idle_0: -2035255606
-      Player_Idle_1: 1117868959
+      char1walkanim-Sheet_0: 1471438321
+      char1walkanim-Sheet_1: -1033772634
+      char1walkanim-Sheet_2: 1591624612
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

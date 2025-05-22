@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c14d5d490ddb01b4784ef86b384727b7
+guid: 4475b906c6d7dcd4ab86742ba22ebaff
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_0
+      name: batanimation_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 0
-        width: 35
-        height: 64
+        x: 11
+        y: 24
+        width: 50
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 240d1a2d4f0a2e94d837a8598558ea16
-      internalID: -1071103929
+      spriteID: b295e2d396333084bb6c4a9b3df05d93
+      internalID: -89638302
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_1
+      name: batanimation_1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 0
-        width: 35
-        height: 64
+        x: 82
+        y: 2
+        width: 31
+        height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,29 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9f1ce5d26c150334fbe28134e1c20c1b
-      internalID: -1789335226
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_2
-      rect:
-        serializedVersion: 2
-        x: 137
-        y: 0
-        width: 35
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e3fe790b4a3cc21489744d9d27283375
-      internalID: -710083736
+      spriteID: f7ad702c18f2d014a8261a820b19caa5
+      internalID: 1089454064
       vertices: []
       indices: 
       edges: []
@@ -170,9 +149,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_0: -1071103929
-      Player_1: -1789335226
-      Player_2: -710083736
+      batanimation_0: -89638302
+      batanimation_1: 1089454064
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

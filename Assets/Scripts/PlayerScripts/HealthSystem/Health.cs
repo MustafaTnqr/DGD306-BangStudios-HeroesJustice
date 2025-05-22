@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -7,17 +7,19 @@ public class Health : MonoBehaviour
     public float currentHealth { get; private set; }
 
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
     private bool isDead = false;
 
     private void Awake()
     {
         currentHealth = startingHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>(); 
     }
 
     public void TakeDamage(float _damage)
     {
-        if (isDead) return; 
+        if (isDead) return;
 
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
 
@@ -36,13 +38,24 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
 
         if (currentHealth > 0 && isDead)
+        {
             isDead = false;
+            animator.SetBool("isDead", false);
+        }
     }
 
     private void Die()
     {
         isDead = true;
+        animator.SetBool("isDead", true);
+
         
+        if (TryGetComponent<PlayerMovement>(out var movement))
+            movement.enabled = false;
+
+        
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+            rb.velocity = Vector2.zero;
     }
 
     private IEnumerator DamageFlash()

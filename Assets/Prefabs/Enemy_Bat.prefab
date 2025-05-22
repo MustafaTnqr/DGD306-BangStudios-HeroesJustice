@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5248156038727151497}
   - component: {fileID: 8022502854233816806}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: Enemy_Bat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5108007571305425072}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 2.97, y: 3.17, z: 0}
   m_LocalScale: {x: 0.44385356, y: 0.44385356, z: 0.44385356}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &20718519824452659
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2095426616, guid: a0d1d24951bf1454bb94fd23ade0cc2b, type: 3}
+  m_Sprite: {fileID: -89638302, guid: 4475b906c6d7dcd4ab86742ba22ebaff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +152,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.78125, y: 1.875}
+    oldSize: {x: 1.5625, y: 0.875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b952aa346d14da94881dea4391b68487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 4276173799171734245, guid: d167bfa5a18880d49a5587e709df257e, type: 3}
+  target: {fileID: 0}
   moveSpeed: 2
 --- !u!95 &8022502854233816806
 Animator:
@@ -199,7 +199,7 @@ Animator:
   m_GameObject: {fileID: 5108007571305425072}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 70ba780677a78964e8cc252d5955905a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0956c80866f07c243ac3ad395f0ab7b2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
