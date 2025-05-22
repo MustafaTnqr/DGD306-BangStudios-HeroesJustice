@@ -9,6 +9,13 @@ public class RoomCamera : MonoBehaviour
 
     void Start()
     {
+        if (player == null)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            if (obj != null)
+                player = obj.transform;
+        }
+
         float screenHalfHeight = Camera.main.orthographicSize;
         screenHalfWidthWorld = screenHalfHeight * Camera.main.aspect;
         UpdateCameraPosition();

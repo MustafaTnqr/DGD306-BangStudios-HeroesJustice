@@ -53,7 +53,10 @@ public class Health : MonoBehaviour
         if (TryGetComponent<PlayerMovement>(out var movement))
             movement.enabled = false;
 
-        
+        if (TryGetComponent<SwordPlayerController>(out var swordMovement))
+            swordMovement.enabled = false;
+
+
         if (TryGetComponent<Rigidbody2D>(out var rb))
             rb.velocity = Vector2.zero;
     }

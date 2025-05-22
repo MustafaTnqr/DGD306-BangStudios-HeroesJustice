@@ -14,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
-        // Hedefi bul
+        
         if (target == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");

@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class SwordPlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    public Transform attackPoint;
 
     private Animator animator;
     private Rigidbody2D rb;
@@ -21,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-       
+        
         if (moveInput > 0)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (moveInput < 0)
@@ -29,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
 
         
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
-        
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
         
@@ -38,10 +39,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
-            animator.SetBool("isJumping", true); 
+            animator.SetBool("isJumping", true);
+        }
+
+       
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetTrigger("Attack");
         }
     }
 
+  
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -58,4 +66,17 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    
+    void DealDamage()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+    }
+
+    
 }
