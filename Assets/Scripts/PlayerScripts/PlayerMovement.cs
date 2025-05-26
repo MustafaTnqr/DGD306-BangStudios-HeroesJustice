@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isJumping", false);
         }
     }
-
+   
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

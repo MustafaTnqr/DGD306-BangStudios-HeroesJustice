@@ -5,7 +5,9 @@ public class RoomCamera : MonoBehaviour
     public Transform player;
     public float teleportOffset = 0.5f;
     private float screenHalfWidthWorld;
+    private float screenHalfHeightWorld;
     private int currentScreenX = 0;
+    private int currentScreenY = 0;
 
     void Start()
     {
@@ -16,35 +18,54 @@ public class RoomCamera : MonoBehaviour
                 player = obj.transform;
         }
 
-        float screenHalfHeight = Camera.main.orthographicSize;
-        screenHalfWidthWorld = screenHalfHeight * Camera.main.aspect;
+        screenHalfHeightWorld = Camera.main.orthographicSize;
+        screenHalfWidthWorld = screenHalfHeightWorld * Camera.main.aspect;
         UpdateCameraPosition();
     }
 
     void Update()
     {
         float playerX = player.position.x;
+        float playerY = player.position.y;
 
-        float currentScreenCenter = currentScreenX * screenHalfWidthWorld * 2f;
+        float currentScreenCenterX = currentScreenX * screenHalfWidthWorld * 2f;
+        float currentScreenCenterY = currentScreenY * screenHalfHeightWorld * 2f;
 
-        if (playerX > currentScreenCenter + screenHalfWidthWorld)
+        // Saða geçiþ
+        if (playerX > currentScreenCenterX + screenHalfWidthWorld)
         {
             currentScreenX++;
             UpdateCameraPosition();
-            player.position = new Vector3(currentScreenCenter + screenHalfWidthWorld + teleportOffset, player.position.y, player.position.z);
+            player.position = new Vector3(currentScreenCenterX + screenHalfWidthWorld + teleportOffset, playerY, player.position.z);
         }
-
-        else if (playerX < currentScreenCenter - screenHalfWidthWorld)
+        // Sola geçiþ
+        else if (playerX < currentScreenCenterX - screenHalfWidthWorld)
         {
             currentScreenX--;
             UpdateCameraPosition();
-            player.position = new Vector3(currentScreenCenter - screenHalfWidthWorld - teleportOffset, player.position.y, player.position.z);
+            player.position = new Vector3(currentScreenCenterX - screenHalfWidthWorld - teleportOffset, playerY, player.position.z);
+        }
+
+        // Yukarý geçiþ
+        if (playerY > currentScreenCenterY + screenHalfHeightWorld)
+        {
+            currentScreenY++;
+            UpdateCameraPosition();
+            player.position = new Vector3(playerX, currentScreenCenterY + screenHalfHeightWorld + teleportOffset, player.position.z);
+        }
+        // Aþaðý geçiþ
+        else if (playerY < currentScreenCenterY - screenHalfHeightWorld)
+        {
+            currentScreenY--;
+            UpdateCameraPosition();
+            player.position = new Vector3(playerX, currentScreenCenterY - screenHalfHeightWorld - teleportOffset, player.position.z);
         }
     }
 
     void UpdateCameraPosition()
     {
         float newX = currentScreenX * screenHalfWidthWorld * 2f;
-        transform.position = new Vector3(newX, transform.position.y, -10f);
+        float newY = currentScreenY * screenHalfHeightWorld * 2f;
+        transform.position = new Vector3(newX, newY, -10f);
     }
 }

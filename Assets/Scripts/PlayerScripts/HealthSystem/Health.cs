@@ -77,9 +77,5 @@ public class Health : MonoBehaviour
         spriteRenderer.color = Color.white;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-            TakeDamage(1);
-    }
+    
 }
