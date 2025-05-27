@@ -14,9 +14,15 @@ public class BossPatrol : MonoBehaviour
 
     private float lastDamageTime = -999f; // son hasar zamaný
 
+    private AudioSource audioSource;
+
+    [Header("Yürüme Sesi")]
+    public AudioClip walkClip;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void FixedUpdate()
@@ -26,11 +32,30 @@ public class BossPatrol : MonoBehaviour
 
         rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
 
+        // Flip yön
         if ((movingToB && transform.position.x >= pointB.position.x - 0.1f) ||
             (!movingToB && transform.position.x <= pointA.position.x + 0.1f))
         {
             movingToB = !movingToB;
             Flip();
+        }
+
+        // Yürüme sesi kontrolü
+        if (Mathf.Abs(rb.velocity.x) > 0.1f)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = walkClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 

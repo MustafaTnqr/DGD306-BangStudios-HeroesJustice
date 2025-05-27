@@ -6,7 +6,6 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
-        
         float angle = Mathf.Atan2(GetComponent<Rigidbody2D>().velocity.y, GetComponent<Rigidbody2D>().velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
@@ -23,14 +22,28 @@ public class Bullet : MonoBehaviour
                 bh.TakeDamage(1);
             }
 
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
-        if (collision.CompareTag("Enemy"))
+        else if (collision.CompareTag("Enemy"))
         {
+            // Zombi sesi
+            if (collision.GetComponent<ZombieIdentifier>() != null)
+            {
+                AudioManager.Instance?.PlaySFX(AudioManager.Instance.zombieDeath);
+            }
+            // Ýskelet sesi
+            else if (collision.GetComponent<SkeletonIdentifier>() != null)
+            {
+                AudioManager.Instance?.PlaySFX(AudioManager.Instance.skeletonDeath);
+            }
+            // Yarasa sesi
+            else if (collision.GetComponent<BatIdentifier>() != null)
+            {
+                AudioManager.Instance?.PlaySFX(AudioManager.Instance.batDeath);
+            }
+
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
     }
-    
-
 }

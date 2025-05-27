@@ -13,6 +13,13 @@ public class SwordPlayerController : MonoBehaviour
     private Vector3 originalScale;
     private bool isGrounded;
 
+    [Header("Yürüyüş Sesi")]
+    public AudioSource walkAudioSource;
+    public AudioClip walkClip;
+
+    [Header("Saldırı Sesi")]
+    public AudioClip swordSwingSound;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,16 +31,31 @@ public class SwordPlayerController : MonoBehaviour
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-
         if (moveInput > 0)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (moveInput < 0)
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
-
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
+        // 🎧 Yürüyüş sesi kontrolü
+        if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
+        {
+            if (!walkAudioSource.isPlaying)
+            {
+                walkAudioSource.clip = walkClip;
+                walkAudioSource.loop = true;
+                walkAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (walkAudioSource.isPlaying)
+            {
+                walkAudioSource.Stop();
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -42,13 +64,17 @@ public class SwordPlayerController : MonoBehaviour
             animator.SetBool("isJumping", true);
         }
 
-
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("Attack");
+
+            // 🔊 Saldırı sesi çal
+            if (AudioManager.Instance != null && AudioManager.Instance.sfxSource != null && swordSwingSound != null)
+            {
+                AudioManager.Instance.sfxSource.PlayOneShot(swordSwingSound, 0.6f); // %60 ses
+            }
         }
     }
-
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -67,7 +93,6 @@ public class SwordPlayerController : MonoBehaviour
         }
     }
 
-
     void DealDamage()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
@@ -85,7 +110,5 @@ public class SwordPlayerController : MonoBehaviour
                 Destroy(enemy.gameObject);
             }
         }
-
-
     }
 }
