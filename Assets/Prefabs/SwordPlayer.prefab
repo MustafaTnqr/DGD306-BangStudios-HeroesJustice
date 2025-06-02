@@ -318,7 +318,8 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 8984617667616896953}
   walkAudioSource: {fileID: -163979572973934837}
-  walkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
+  defaultWalkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
+  woodWalkClip: {fileID: 8300000, guid: 1d2a6eb2780812842b5edab95b1bfcb9, type: 3}
   swordSwingSound: {fileID: 8300000, guid: 895c95918d54b3e4d918b5afb5a6a199, type: 3}
 --- !u!114 &5133971203300474277
 MonoBehaviour:

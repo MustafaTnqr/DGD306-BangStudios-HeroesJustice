@@ -12,7 +12,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Yürüyüş Sesi")]
     public AudioSource walkAudioSource;
-    public AudioClip walkClip;
+    public AudioClip defaultWalkClip;
+    public AudioClip woodWalkClip;
+
+    private string currentSurface = "Default";
 
     void Start()
     {
@@ -25,19 +28,15 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        
         if (moveInput > 0)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (moveInput < 0)
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
-        
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
-        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -45,12 +44,22 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isJumping", true);
         }
 
-        
+        // 🎧 Zemin türüne göre yürüyüş sesi ve ses yüksekliği
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
         {
             if (!walkAudioSource.isPlaying)
             {
-                walkAudioSource.clip = walkClip;
+                if (currentSurface == "Wood")
+                {
+                    walkAudioSource.clip = woodWalkClip;
+                    walkAudioSource.volume = 0.1f;
+                }
+                else
+                {
+                    walkAudioSource.clip = defaultWalkClip;
+                    walkAudioSource.volume = 0.03f;
+                }
+
                 walkAudioSource.loop = true;
                 walkAudioSource.Play();
             }
@@ -73,11 +82,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (other.CompareTag("FootstepWood"))
         {
-            isGrounded = false;
+            
+            currentSurface = "Wood";
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("FootstepWood"))
+        {
+            
+            currentSurface = "Default";
         }
     }
 }

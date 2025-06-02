@@ -3511,7 +3511,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -104248,6 +104248,8 @@ MonoBehaviour:
   batDeath: {fileID: 8300000, guid: 9b7b388c5e7a9b440b4d4f9da7154db0, type: 3}
   pistolShot: {fileID: 8300000, guid: ec2e84caee31dd0458887dcd6e7449d7, type: 3}
   swordSwingSound: {fileID: 8300000, guid: 895c95918d54b3e4d918b5afb5a6a199, type: 3}
+  defaultWalk: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
+  woodWalk: {fileID: 8300000, guid: e27db1a0b59bfa5468b95c39ba84568a, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 146978f47ea305549975f0b68d1f8c8b, type: 3}
 --- !u!4 &1917612420
 Transform:

@@ -5,8 +5,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     [Header("Ses Kanallarý")]
-    public AudioSource sfxSource;
-    public AudioSource musicSource;
+    public AudioSource sfxSource;       // Efekt sesleri için
+    public AudioSource musicSource;     // Arka plan müziði için
 
     [Header("Efekt Sesleri")]
     public AudioClip zombieDeath;
@@ -15,16 +15,20 @@ public class AudioManager : MonoBehaviour
     public AudioClip pistolShot;
     public AudioClip swordSwingSound;
 
+    [Header("Yürüyüþ Sesleri (Opsiyonel)")]
+    public AudioClip defaultWalk;
+    public AudioClip woodWalk;
+
     [Header("Arka Plan Müzik")]
     public AudioClip backgroundMusic;
 
     private void Awake()
     {
-        
+        // Singleton örneði oluþtur
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject); // Sahne deðiþse bile kalýcý
         }
         else
         {
@@ -37,14 +41,18 @@ public class AudioManager : MonoBehaviour
         PlayMusic(backgroundMusic);
     }
 
-   
-    public void PlaySFX(AudioClip clip)
+    /// <summary>
+    /// Efekt sesi çalar (tek seferlik)
+    /// </summary>
+    public void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (clip != null && sfxSource != null)
-            sfxSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip, volume);
     }
 
-   
+    /// <summary>
+    /// Arka plan müziðini baþlatýr
+    /// </summary>
     public void PlayMusic(AudioClip music)
     {
         if (music != null && musicSource != null)
@@ -55,7 +63,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-   
+    /// <summary>
+    /// Mevcut müziði durdurur
+    /// </summary>
     public void StopMusic()
     {
         if (musicSource != null && musicSource.isPlaying)

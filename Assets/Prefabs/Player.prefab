@@ -302,9 +302,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 26.99
+  jumpForce: 9
   walkAudioSource: {fileID: 1711408782044592570}
-  walkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
+  defaultWalkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
+  woodWalkClip: {fileID: 8300000, guid: 1d2a6eb2780812842b5edab95b1bfcb9, type: 3}
 --- !u!70 &5859814847213143448
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -402,7 +403,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.01
   m_Pitch: 1
   Loop: 0
   Mute: 0

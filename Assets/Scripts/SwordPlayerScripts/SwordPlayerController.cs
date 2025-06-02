@@ -15,7 +15,10 @@ public class SwordPlayerController : MonoBehaviour
 
     [Header("Yürüyüş Sesi")]
     public AudioSource walkAudioSource;
-    public AudioClip walkClip;
+    public AudioClip defaultWalkClip;
+    public AudioClip woodWalkClip;
+
+    private string currentSurface = "Default";
 
     [Header("Saldırı Sesi")]
     public AudioClip swordSwingSound;
@@ -39,12 +42,22 @@ public class SwordPlayerController : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
-        
+        // 🎧 Zemin türüne göre ses ve volume kontrolü
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
         {
             if (!walkAudioSource.isPlaying)
             {
-                walkAudioSource.clip = walkClip;
+                if (currentSurface == "Wood")
+                {
+                    walkAudioSource.clip = woodWalkClip;
+                    walkAudioSource.volume = 0.1f;
+                }
+                else
+                {
+                    walkAudioSource.clip = defaultWalkClip;
+                    walkAudioSource.volume = 0.01f;
+                }
+
                 walkAudioSource.loop = true;
                 walkAudioSource.Play();
             }
@@ -68,7 +81,6 @@ public class SwordPlayerController : MonoBehaviour
         {
             animator.SetTrigger("Attack");
 
-            
             if (AudioManager.Instance != null && AudioManager.Instance.sfxSource != null && swordSwingSound != null)
             {
                 AudioManager.Instance.sfxSource.PlayOneShot(swordSwingSound, 0.6f);
@@ -93,6 +105,22 @@ public class SwordPlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("FootstepWood"))
+        {
+            currentSurface = "Wood";
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("FootstepWood"))
+        {
+            currentSurface = "Default";
+        }
+    }
+
     void DealDamage()
     {
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
@@ -107,7 +135,6 @@ public class SwordPlayerController : MonoBehaviour
             }
             else
             {
-                
                 if (AudioManager.Instance != null)
                 {
                     if (enemy.GetComponent<ZombieIdentifier>() != null)
