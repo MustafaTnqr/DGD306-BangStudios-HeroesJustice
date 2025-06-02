@@ -39,7 +39,7 @@ public class SwordPlayerController : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
-        // 🎧 Yürüyüş sesi kontrolü
+        
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
         {
             if (!walkAudioSource.isPlaying)
@@ -68,10 +68,10 @@ public class SwordPlayerController : MonoBehaviour
         {
             animator.SetTrigger("Attack");
 
-            // 🔊 Saldırı sesi çal
+            
             if (AudioManager.Instance != null && AudioManager.Instance.sfxSource != null && swordSwingSound != null)
             {
-                AudioManager.Instance.sfxSource.PlayOneShot(swordSwingSound, 0.6f); // %60 ses
+                AudioManager.Instance.sfxSource.PlayOneShot(swordSwingSound, 0.6f);
             }
         }
     }
@@ -107,6 +107,17 @@ public class SwordPlayerController : MonoBehaviour
             }
             else
             {
+                
+                if (AudioManager.Instance != null)
+                {
+                    if (enemy.GetComponent<ZombieIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.zombieDeath);
+                    else if (enemy.GetComponent<SkeletonIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.skeletonDeath);
+                    else if (enemy.GetComponent<BatIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.batDeath);
+                }
+
                 Destroy(enemy.gameObject);
             }
         }

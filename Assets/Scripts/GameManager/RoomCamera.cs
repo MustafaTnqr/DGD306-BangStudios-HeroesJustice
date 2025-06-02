@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomCamera : MonoBehaviour
 {
@@ -9,7 +10,27 @@ public class RoomCamera : MonoBehaviour
     private int currentScreenX = 0;
     private int currentScreenY = 0;
 
+    void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     void Start()
+    {
+        SetupCamera();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetupCamera(); 
+    }
+
+    void SetupCamera()
     {
         if (player == null)
         {
@@ -20,25 +41,27 @@ public class RoomCamera : MonoBehaviour
 
         screenHalfHeightWorld = Camera.main.orthographicSize;
         screenHalfWidthWorld = screenHalfHeightWorld * Camera.main.aspect;
+        currentScreenX = 0;
+        currentScreenY = 0;
         UpdateCameraPosition();
     }
 
     void Update()
     {
+        if (player == null) return;
+
         float playerX = player.position.x;
         float playerY = player.position.y;
 
         float currentScreenCenterX = currentScreenX * screenHalfWidthWorld * 2f;
         float currentScreenCenterY = currentScreenY * screenHalfHeightWorld * 2f;
 
-        // Saða geçiþ
         if (playerX > currentScreenCenterX + screenHalfWidthWorld)
         {
             currentScreenX++;
             UpdateCameraPosition();
             player.position = new Vector3(currentScreenCenterX + screenHalfWidthWorld + teleportOffset, playerY, player.position.z);
         }
-        // Sola geçiþ
         else if (playerX < currentScreenCenterX - screenHalfWidthWorld)
         {
             currentScreenX--;
@@ -46,14 +69,12 @@ public class RoomCamera : MonoBehaviour
             player.position = new Vector3(currentScreenCenterX - screenHalfWidthWorld - teleportOffset, playerY, player.position.z);
         }
 
-        // Yukarý geçiþ
         if (playerY > currentScreenCenterY + screenHalfHeightWorld)
         {
             currentScreenY++;
             UpdateCameraPosition();
             player.position = new Vector3(playerX, currentScreenCenterY + screenHalfHeightWorld + teleportOffset, player.position.z);
         }
-        // Aþaðý geçiþ
         else if (playerY < currentScreenCenterY - screenHalfHeightWorld)
         {
             currentScreenY--;

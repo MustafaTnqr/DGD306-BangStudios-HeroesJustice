@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 961977882096272138}
   - component: {fileID: 1711408782044592570}
   - component: {fileID: 3302383402755410907}
+  - component: {fileID: -2579808843251960299}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -301,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 9
+  jumpForce: 26.99
   walkAudioSource: {fileID: 1711408782044592570}
   walkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
 --- !u!70 &5859814847213143448
@@ -493,6 +494,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2535488208533887288}
   m_Enabled: 1
+--- !u!114 &-2579808843251960299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2535488208533887288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51920277e57e82849ab6c3e521a0afeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasKey: 0
 --- !u!1 &5220455185162447187
 GameObject:
   m_ObjectHideFlags: 0

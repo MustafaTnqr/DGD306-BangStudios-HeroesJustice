@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 5133971203300474277}
   - component: {fileID: 4082154714013367874}
   - component: {fileID: -163979572973934837}
+  - component: {fileID: -608396627780607417}
   m_Layer: 6
   m_Name: SwordPlayer
   m_TagString: Player
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 9
-  attackRange: 2.2
+  attackRange: 4
   enemyLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -436,6 +437,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-608396627780607417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667738358061494006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51920277e57e82849ab6c3e521a0afeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasKey: 0
 --- !u!1 &7363195971531679192
 GameObject:
   m_ObjectHideFlags: 0

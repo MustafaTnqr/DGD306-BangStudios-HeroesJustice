@@ -20,11 +20,11 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton kalýbý: sahnede tek bir AudioManager olmasýný garanti eder
+        
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Sahne deðiþse bile yok olmasýn
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -37,18 +37,14 @@ public class AudioManager : MonoBehaviour
         PlayMusic(backgroundMusic);
     }
 
-    /// <summary>
-    /// Tek seferlik efekt sesi çalar
-    /// </summary>
+   
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null && sfxSource != null)
             sfxSource.PlayOneShot(clip);
     }
 
-    /// <summary>
-    /// Arka plan müziðini baþlatýr
-    /// </summary>
+   
     public void PlayMusic(AudioClip music)
     {
         if (music != null && musicSource != null)
@@ -59,9 +55,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Müziði durdurur
-    /// </summary>
+   
     public void StopMusic()
     {
         if (musicSource != null && musicSource.isPlaying)
