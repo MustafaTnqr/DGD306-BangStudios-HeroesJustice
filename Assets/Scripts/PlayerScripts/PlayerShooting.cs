@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -9,14 +9,20 @@ public class PlayerShooting : MonoBehaviour
     private float nextFireTime;
 
     private Vector3 originalScale;
+    private PlayerMovement playerMovement;
 
     void Start()
     {
         originalScale = transform.localScale;
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
+        
+        if (playerMovement != null && !playerMovement.canMove)
+            return;
+
         if (Time.time >= nextFireTime && Input.GetMouseButton(0))
         {
             Vector2 direction = GetMouseDirection();
@@ -50,10 +56,10 @@ public class PlayerShooting : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.velocity = direction * bulletSpeed;
 
-        //  Tabanca sesi çal 
+        
         if (AudioManager.Instance != null && AudioManager.Instance.pistolShot != null)
         {
-            AudioSource.PlayClipAtPoint(AudioManager.Instance.pistolShot, transform.position, 0.1f); // %10 ses
+            AudioSource.PlayClipAtPoint(AudioManager.Instance.pistolShot, transform.position, 0.1f);
         }
     }
 }

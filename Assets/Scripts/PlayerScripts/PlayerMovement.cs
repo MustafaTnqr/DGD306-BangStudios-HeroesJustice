@@ -4,28 +4,46 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
-
-    private Animator animator;
-    private Rigidbody2D rb;
-    private Vector3 originalScale;
-    private bool isGrounded;
-
-    [Header("Yürüyüş Sesi")]
-    public AudioSource walkAudioSource;
     public AudioClip defaultWalkClip;
     public AudioClip woodWalkClip;
 
+    private Rigidbody2D rb;
+    private Animator animator;
+    private AudioSource walkAudioSource;
+    private bool isGrounded = true;
+    private Vector3 originalScale;
     private string currentSurface = "Default";
+
+    public bool canMove = true; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        walkAudioSource = GetComponent<AudioSource>();
         originalScale = transform.localScale;
     }
 
     void Update()
     {
+        if (!canMove)
+        {
+            rb.velocity = Vector2.zero;                        
+            rb.angularVelocity = 0f;                           
+            rb.constraints = RigidbodyConstraints2D.FreezeAll; 
+            animator.SetBool("isWalking", false);
+
+            if (walkAudioSource.isPlaying)
+                walkAudioSource.Stop();
+
+            return;
+        }
+        else
+        {
+            
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         if (moveInput > 0)
@@ -34,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -44,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isJumping", true);
         }
 
-        // 🎧 Zemin türüne göre yürüyüş sesi ve ses yüksekliği
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
         {
             if (!walkAudioSource.isPlaying)
@@ -73,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -82,21 +98,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("FootstepWood"))
-        {
-            
+        if (other.CompareTag("WoodFloor"))
             currentSurface = "Wood";
-        }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("FootstepWood"))
-        {
-            
+        if (other.CompareTag("WoodFloor"))
             currentSurface = "Default";
-        }
     }
 }

@@ -11,8 +11,8 @@ public class BossHealth : MonoBehaviour
     public float destroyDelay = 1.5f;
 
     [Header("Anahtar Ayarlarý")]
-    public GameObject keyPrefab; // Anahtar prefabýný buraya sürükle
-    public Transform dropPoint;  // Anahtarýn düþeceði yer (Yoksa boss'un pozisyonu kullanýlýr)
+    public GameObject keyPrefab; 
+    public Transform dropPoint;  
 
     void Start()
     {
@@ -26,7 +26,6 @@ public class BossHealth : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= amount;
-        Debug.Log("Boss damage aldý! Kalan can: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -51,7 +50,7 @@ public class BossHealth : MonoBehaviour
             Invoke(nameof(DisableAnimator), 0.1f);
         }
 
-        // Anahtar düþürme
+       
         Vector3 spawnPos = dropPoint != null ? dropPoint.position : transform.position;
         Instantiate(keyPrefab, spawnPos, Quaternion.identity);
 

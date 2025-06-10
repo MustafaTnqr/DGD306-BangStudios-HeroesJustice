@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
 {
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }

@@ -14,14 +14,14 @@ public class BossHeartSpawner : MonoBehaviour
 
     void Update()
     {
-        // Player sahnede yoksa aramaya devam et
+        
         if (player == null)
         {
             GameObject p = GameObject.FindGameObjectWithTag("Player");
             if (p != null)
                 player = p.transform;
 
-            return; // oyuncu hala yoksa diðer kodlara girme
+            return; 
         }
 
         if (heartsSpawned)

@@ -1,12 +1,13 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+//AUDIO MANAGER AI KULLANILARAK YAZDIRILDI
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
     [Header("Ses Kanallarý")]
-    public AudioSource sfxSource;       // Efekt sesleri için
-    public AudioSource musicSource;     // Arka plan müziði için
+    public AudioSource sfxSource;
+    public AudioSource musicSource;
 
     [Header("Efekt Sesleri")]
     public AudioClip zombieDeath;
@@ -24,11 +25,11 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton örneði oluþtur
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Sahne deðiþse bile kalýcý
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -36,23 +37,22 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void Start()
     {
         PlayMusic(backgroundMusic);
     }
 
-    /// <summary>
-    /// Efekt sesi çalar (tek seferlik)
-    /// </summary>
     public void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (clip != null && sfxSource != null)
             sfxSource.PlayOneShot(clip, volume);
     }
 
-    /// <summary>
-    /// Arka plan müziðini baþlatýr
-    /// </summary>
     public void PlayMusic(AudioClip music)
     {
         if (music != null && musicSource != null)
@@ -63,14 +63,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Mevcut müziði durdurur
-    /// </summary>
     public void StopMusic()
     {
         if (musicSource != null && musicSource.isPlaying)
         {
             musicSource.Stop();
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Level2")
+        {
+            StopMusic();
         }
     }
 }

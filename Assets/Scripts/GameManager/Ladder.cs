@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ladder : MonoBehaviour
+public class Ladder : MonoBehaviour //Merdiven sistemi için youtube videosundan yardým alýndý + bazý düzenlemeler için ai kullanýldý
 {
     public float climbSpeed = 4f;
 

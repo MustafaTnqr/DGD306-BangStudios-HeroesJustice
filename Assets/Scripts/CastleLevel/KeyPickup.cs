@@ -8,7 +8,6 @@ public class KeyPickup : MonoBehaviour
         {
             PlayerInventory.instance.hasKey = true;
             Destroy(gameObject);
-            Debug.Log("Anahtar alýndý!");
         }
     }
 }

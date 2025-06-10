@@ -5,7 +5,7 @@ public class EnemyMovement : MonoBehaviour
     public Transform target;
     public float moveSpeed = 2f;
 
-    [Header("Patrol Settings")]
+    [Header("Patrol Settings")] //Patrolling için ai tarafýndan yardým alýndý
     public Transform pointA;
     public Transform pointB;
     private Transform currentTarget;
@@ -35,7 +35,7 @@ public class EnemyMovement : MonoBehaviour
                 target = playerObj.transform;
         }
 
-        currentTarget = pointA; // Baþlangýç devriye hedefi
+        currentTarget = pointA; 
     }
 
     void FixedUpdate()
@@ -53,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (chasingPlayer)
         {
-            // Oyuncuya saldýrý
+            
             float dir = target.position.x - transform.position.x;
             rb.velocity = new Vector2(Mathf.Sign(dir) * moveSpeed, rb.velocity.y);
 
@@ -64,13 +64,13 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            // Devriye modu
+            
             float dir = currentTarget.position.x - transform.position.x;
             rb.velocity = new Vector2(Mathf.Sign(dir) * moveSpeed, rb.velocity.y);
 
             if (Mathf.Abs(dir) < 0.2f)
             {
-                // Hedefe ulaþtýysa diðer patrol noktasýna geç
+                
                 currentTarget = (currentTarget == pointA) ? pointB : pointA;
             }
 

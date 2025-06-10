@@ -2,6 +2,7 @@
 
 public class SwordPlayerController : MonoBehaviour
 {
+    public bool canMove = true;
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     public float attackRange = 0.5f;
@@ -13,7 +14,7 @@ public class SwordPlayerController : MonoBehaviour
     private Vector3 originalScale;
     private bool isGrounded;
 
-    [Header("Yürüyüş Sesi")]
+    [Header("Yürüyüş Sesi")]  //Karakter sesleri için ai tarafından yardım alındı
     public AudioSource walkAudioSource;
     public AudioClip defaultWalkClip;
     public AudioClip woodWalkClip;
@@ -32,7 +33,24 @@ public class SwordPlayerController : MonoBehaviour
 
     void Update()
     {
-        float moveInput = Input.GetAxisRaw("Horizontal");
+        
+      if (!canMove)
+        {
+          rb.velocity = Vector2.zero;
+          rb.constraints = RigidbodyConstraints2D.FreezeAll;
+          animator.SetBool("isWalking", false);
+
+          if (walkAudioSource.isPlaying)
+              walkAudioSource.Stop();
+
+             return;
+         }
+        else
+            {
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+
+            float moveInput = Input.GetAxisRaw("Horizontal");
 
         if (moveInput > 0)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
@@ -42,7 +60,7 @@ public class SwordPlayerController : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
-        // 🎧 Zemin türüne göre ses ve volume kontrolü
+        
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
         {
             if (!walkAudioSource.isPlaying)

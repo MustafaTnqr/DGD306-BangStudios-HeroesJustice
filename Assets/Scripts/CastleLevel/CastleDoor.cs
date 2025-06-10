@@ -11,14 +11,13 @@ public class CastleDoor : MonoBehaviour
         {
             if (PlayerInventory.instance.hasKey)
             {
-                // Anahtar var → sahne değiştir
                 SceneManager.LoadScene(nextSceneName);
             }
             else
             {
-                Debug.Log("Kapı kilitli, anahtar lazım!");
-                // Buraya UI ile "Anahtar lazım!" yazısı da çıkarabilirsin.
+                KeyWarningUI.instance.ShowMessage("You Need To Find A Key");  //UI Gosterme için ai yardımı alındı
             }
+
         }
     }
 }

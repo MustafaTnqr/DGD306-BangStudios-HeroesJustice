@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+//Kamera scritpi yazýlýrken ai tarafýndan yardým alýndý
 public class RoomCamera : MonoBehaviour
 {
     public Transform player;
@@ -89,4 +89,17 @@ public class RoomCamera : MonoBehaviour
         float newY = currentScreenY * screenHalfHeightWorld * 2f;
         transform.position = new Vector3(newX, newY, -10f);
     }
+    public void SnapToPlayer()
+    {
+        if (player == null) return;
+
+        float px = player.position.x;
+        float py = player.position.y;
+
+        currentScreenX = Mathf.RoundToInt(px / (screenHalfWidthWorld * 2f));
+        currentScreenY = Mathf.RoundToInt(py / (screenHalfHeightWorld * 2f));
+
+        UpdateCameraPosition();
+    }
+
 }

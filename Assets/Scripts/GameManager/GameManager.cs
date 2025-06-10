@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     {
         int selectedCharacter = PlayerPrefs.GetInt("SelectedCharacter", 0);
 
-        // Karakter zaten varsa tekrar yaratma
+        
         if (GameObject.FindWithTag("Player") == null)
         {
             spawned = Instantiate(characterPrefabs[selectedCharacter], spawnPoint.position, Quaternion.identity);
@@ -20,23 +20,23 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            spawned = GameObject.FindWithTag("Player"); // Zaten varsa referansý al
+            spawned = GameObject.FindWithTag("Player"); 
         }
 
-        // Kamera baðlantýsý
+        
         RoomCamera camScript = Camera.main.GetComponent<RoomCamera>();
         if (camScript != null)
         {
             camScript.player = spawned.transform;
         }
 
-        // Sahne deðiþince spawn noktasýna taþý
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameObject spawn = GameObject.Find("SpawnPoint"); // Sahnedeki SpawnPoint objesini bul
+        GameObject spawn = GameObject.Find("SpawnPoint"); 
         if (spawn != null && spawned != null)
         {
             spawned.transform.position = spawn.transform.position;

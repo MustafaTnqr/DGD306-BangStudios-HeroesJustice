@@ -6,13 +6,13 @@ public class BossPatrol : MonoBehaviour
     public Transform pointB;
     public float moveSpeed = 2f;
     public int damageAmount = 1;
-    public float damageCooldown = 1f; // saniye cinsinden
+    public float damageCooldown = 1f; 
 
     private bool movingToB = true;
     private Rigidbody2D rb;
     private bool isFacingRight = true;
 
-    private float lastDamageTime = -999f; // son hasar zamaný
+    private float lastDamageTime = -999f; 
 
     private AudioSource audioSource;
 
@@ -32,7 +32,7 @@ public class BossPatrol : MonoBehaviour
 
         rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
 
-        // Flip yön
+        
         if ((movingToB && transform.position.x >= pointB.position.x - 0.1f) ||
             (!movingToB && transform.position.x <= pointA.position.x + 0.1f))
         {
@@ -40,7 +40,7 @@ public class BossPatrol : MonoBehaviour
             Flip();
         }
 
-        // Yürüme sesi kontrolü
+        
         if (Mathf.Abs(rb.velocity.x) > 0.1f)
         {
             if (!audioSource.isPlaying)
@@ -77,7 +77,7 @@ public class BossPatrol : MonoBehaviour
                 if (hp != null)
                 {
                     hp.TakeDamage(damageAmount);
-                    lastDamageTime = Time.time; // hasar zamaný güncelle
+                    lastDamageTime = Time.time; 
                 }
             }
         }

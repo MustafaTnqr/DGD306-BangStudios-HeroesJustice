@@ -33,7 +33,7 @@ public class EnemyBatMovement : MonoBehaviour
         Vector2 direction = (target.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
 
-        // Flip sadece X yönüne göre
+        
         if (direction.x > 0 && !isFacingRight)
             Flip();
         else if (direction.x < 0 && isFacingRight)

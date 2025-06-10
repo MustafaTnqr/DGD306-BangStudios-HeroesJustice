@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterSwitcher : MonoBehaviour
+public class CharacterSwitcher : MonoBehaviour //Karakter seçim ekraný için youtube videosundan yardým alýndý
 {
     public GameObject[] characters; 
     private int currentIndex = 0;
 
     void Start()
     {
-        ShowCharacter(0); // Ýlk karakteri göster
+        
+         ShowCharacter(currentIndex); 
+
     }
 
     public void ShowNext()
@@ -31,7 +33,14 @@ public class CharacterSwitcher : MonoBehaviour
         {
             characters[i].SetActive(i == index);
         }
+
+        currentIndex = index;
+
+        
+        PlayerPrefs.SetInt("SelectedCharacter", currentIndex);
+        PlayerPrefs.Save();
     }
+
 
     public int GetSelectedIndex()
     {
