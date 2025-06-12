@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//AUDIO MANAGER AI KULLANILARAK YAZDIRILDI
-public class AudioManager : MonoBehaviour
+
+public class AudioManager : MonoBehaviour //AUDIO MANAGER AI DAN DESTEK ALINARAK YAPILDI
 {
     public static AudioManager Instance;
 
@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Arka Plan Müzik")]
     public AudioClip backgroundMusic;
+    public AudioClip bossMusic;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -73,9 +75,16 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         if (scene.name == "Level2")
         {
             StopMusic();
+        }
+
+        
+        if (scene.name == "CharacterSelection")
+        {
+            Destroy(gameObject);
         }
     }
 }

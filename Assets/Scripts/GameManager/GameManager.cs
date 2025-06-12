@@ -36,10 +36,38 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameObject spawn = GameObject.Find("SpawnPoint"); 
+        GameObject spawn = GameObject.Find("SpawnPoint");
+
+        
+        if (scene.name == "CharacterSelection" && spawned != null)
+        {
+            Destroy(spawned);
+            spawned = null;
+            return; 
+        }
+
+        
         if (spawn != null && spawned != null)
         {
             spawned.transform.position = spawn.transform.position;
         }
+
+        if (scene.name == "CharacterSelection")
+        {
+            if (spawned != null)
+            {
+                Destroy(spawned);
+                spawned = null;
+            }
+
+            
+            AudioManager audio = FindObjectOfType<AudioManager>();
+            if (audio != null)
+                Destroy(audio.gameObject);
+
+            return;
+        }
+
     }
+
 }
