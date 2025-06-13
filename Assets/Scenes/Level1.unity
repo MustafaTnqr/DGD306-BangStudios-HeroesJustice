@@ -827,6 +827,7 @@ MonoBehaviour:
   missionCompleteUI: {fileID: 1916900405}
   deathScreenUI: {fileID: 1726301562}
   spawnPoint: {fileID: 1515524281}
+  musicSource: {fileID: 1880205864}
 --- !u!4 &159957428
 Transform:
   m_ObjectHideFlags: 0
@@ -4528,7 +4529,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1041680969}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Resume
+        m_MethodName: CharachterSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6966,7 +6967,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1041680969}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Resume
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

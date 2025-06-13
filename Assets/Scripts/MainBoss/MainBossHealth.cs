@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainBossHealth : MonoBehaviour //Can sistemini ui ile birleþtirmek için ai tarafýndan destek alýndý
+public class MainBossHealth : MonoBehaviour
 {
     public int maxHealth = 20;
     private int currentHealth;
+    private bool isDead = false;
 
     [Header("UI")]
     public GameObject healthBarUI;
@@ -28,6 +29,8 @@ public class MainBossHealth : MonoBehaviour //Can sistemini ui ile birleþtirmek 
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         currentHealth -= damage;
         UpdateHealthBar();
 
@@ -45,19 +48,30 @@ public class MainBossHealth : MonoBehaviour //Can sistemini ui ile birleþtirmek 
 
     void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         if (healthBarUI != null)
             healthBarUI.SetActive(false);
 
-        Debug.Log("BOSS DEAD - Opening Mission Complete UI");
+        
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null)
+            gm.Invoke("ShowMissionCompleteUI", 2f); 
+
+        Destroy(gameObject); 
+    }
+
+
+
+    void ShowMissionCompleteUI()
+    {
 
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null && gm.missionCompleteUI != null)
         {
             gm.missionCompleteUI.SetActive(true);
         }
-
-        // Destroy iþlemini biraz geciktiriyoruz ki UI rahatça görünsün
-        Invoke(nameof(DestroyBoss), 0.1f);
     }
 
     void DestroyBoss()

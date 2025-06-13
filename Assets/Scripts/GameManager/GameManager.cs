@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
     public GameObject missionCompleteUI;
     public GameObject deathScreenUI;
     public Transform spawnPoint;
-    
+    public AudioSource musicSource; 
+
+
 
     private GameObject spawned;
 
@@ -37,6 +39,14 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    public void ShowMissionCompleteUI()
+    {
+        if (missionCompleteUI != null)
+            missionCompleteUI.SetActive(true);
+        if (musicSource != null)
+            musicSource.Stop();
+        Time.timeScale = 0f;
+    }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject spawn = GameObject.Find("SpawnPoint");

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
 {
-    public float startingHealth = 5f;
+    public float startingHealth = 3f;
     public float currentHealth { get; private set; }
     public bool isDead { get; private set; }
     private Animator animator;
@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
         currentHealth = startingHealth;
         animator = GetComponent<Animator>();
 
-        // 🔥 SpriteRenderer componentini al
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -28,7 +28,7 @@ public class Health : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            animator.SetTrigger("hurt");
+            
             StartCoroutine(Invulnerability());
         }
         else
@@ -48,7 +48,7 @@ public class Health : MonoBehaviour
         isDead = true;
         animator.SetBool("isDead", true);
 
-        // Disable movement scripts
+        
         if (TryGetComponent<PlayerMovement>(out var movement))
             movement.enabled = false;
 
@@ -58,7 +58,7 @@ public class Health : MonoBehaviour
         if (TryGetComponent<Rigidbody2D>(out var rb))
             rb.velocity = Vector2.zero;
 
-        // Show Death Screen
+        
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null && gm.deathScreenUI != null)
         {
