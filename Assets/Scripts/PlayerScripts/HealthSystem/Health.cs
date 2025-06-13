@@ -1,47 +1,46 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
+public class Health : MonoBehaviour
 {
-    [SerializeField] private float startingHealth;
+    public float startingHealth = 5f;
     public float currentHealth { get; private set; }
-
-    private SpriteRenderer spriteRenderer;
+    public bool isDead { get; private set; }
     private Animator animator;
-    private bool isDead = false;
+    private bool invulnerable = false;
+
+    private SpriteRenderer spriteRenderer; 
 
     private void Awake()
     {
         currentHealth = startingHealth;
+        animator = GetComponent<Animator>();
+
+        // 🔥 SpriteRenderer componentini al
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>(); 
     }
 
-    public void TakeDamage(float _damage)
+    public void TakeDamage(float damage)
     {
-        if (isDead) return;
+        if (invulnerable || isDead)
+            return;
 
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, startingHealth);
 
         if (currentHealth > 0)
         {
-            StartCoroutine(DamageFlash());
+            animator.SetTrigger("hurt");
+            StartCoroutine(Invulnerability());
         }
         else
         {
-            Die();
+            if (!isDead)
+                Die();
         }
     }
 
-    public void AddHealth(float _value)
+    public void AddHealth(float value)
     {
-        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
-
-        if (currentHealth > 0 && isDead)
-        {
-            isDead = false;
-            animator.SetBool("isDead", false);
-        }
+        currentHealth = Mathf.Clamp(currentHealth + value, 0, startingHealth);
     }
 
     private void Die()
@@ -49,33 +48,45 @@ public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
         isDead = true;
         animator.SetBool("isDead", true);
 
-        
+        // Disable movement scripts
         if (TryGetComponent<PlayerMovement>(out var movement))
             movement.enabled = false;
 
         if (TryGetComponent<SwordPlayerController>(out var swordMovement))
             swordMovement.enabled = false;
 
-
         if (TryGetComponent<Rigidbody2D>(out var rb))
             rb.velocity = Vector2.zero;
+
+        // Show Death Screen
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null && gm.deathScreenUI != null)
+        {
+            gm.deathScreenUI.SetActive(true);
+        }
     }
 
-    private IEnumerator DamageFlash()
+    private System.Collections.IEnumerator Invulnerability()
     {
-        int flashCount = 3;
-        float flashDuration = 0.1f;
+        invulnerable = true;
+
+        // 🔥 Yanıp sönme efekti
+        float flashDelay = 0.1f;
+        int flashCount = 5;
 
         for (int i = 0; i < flashCount; i++)
         {
-            spriteRenderer.color = Color.red;
-            yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(flashDuration);
+            if (spriteRenderer != null)
+                spriteRenderer.color = new Color(1f, 0f, 0f, 1f); 
+
+            yield return new WaitForSeconds(flashDelay);
+
+            if (spriteRenderer != null)
+                spriteRenderer.color = Color.white; 
+
+            yield return new WaitForSeconds(flashDelay);
         }
 
-        spriteRenderer.color = Color.white;
+        invulnerable = false;
     }
-
-    
 }

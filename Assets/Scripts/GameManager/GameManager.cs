@@ -4,7 +4,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject[] characterPrefabs;
+    public GameObject missionCompleteUI;
+    public GameObject deathScreenUI;
     public Transform spawnPoint;
+    
 
     private GameObject spawned;
 

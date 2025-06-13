@@ -14,7 +14,6 @@ public class MainBossHealth : MonoBehaviour //Can sistemini ui ile birleþtirmek 
     {
         currentHealth = maxHealth;
 
-        
         if (healthBarUI != null)
             healthBarUI.SetActive(false);
 
@@ -49,6 +48,20 @@ public class MainBossHealth : MonoBehaviour //Can sistemini ui ile birleþtirmek 
         if (healthBarUI != null)
             healthBarUI.SetActive(false);
 
+        Debug.Log("BOSS DEAD - Opening Mission Complete UI");
+
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null && gm.missionCompleteUI != null)
+        {
+            gm.missionCompleteUI.SetActive(true);
+        }
+
+        // Destroy iþlemini biraz geciktiriyoruz ki UI rahatça görünsün
+        Invoke(nameof(DestroyBoss), 0.1f);
+    }
+
+    void DestroyBoss()
+    {
         Destroy(gameObject);
     }
 }

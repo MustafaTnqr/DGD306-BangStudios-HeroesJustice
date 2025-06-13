@@ -9,7 +9,7 @@ TagManager:
   - Enemy
   - EnemyProjectile
   - Boss
-  - FootstepWood
+  - WoodFloor
   layers:
   - Default
   - TransparentFX

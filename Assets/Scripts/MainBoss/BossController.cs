@@ -35,7 +35,7 @@ public class BossController : MonoBehaviour
                 animator.SetTrigger("StartFight");
                 isActive = true;
 
-                
+
                 MainBossHealth health = GetComponent<MainBossHealth>();
                 if (health != null)
                 {
