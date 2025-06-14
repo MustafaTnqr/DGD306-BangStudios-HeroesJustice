@@ -43,10 +43,33 @@ public class GameManager : MonoBehaviour
     {
         if (missionCompleteUI != null)
             missionCompleteUI.SetActive(true);
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.StopMusic();
+        }
+
+        if (musicSource == null)
+        {
+            AudioManager audio = FindObjectOfType<AudioManager>();
+            if (audio != null && audio.sfxSource != null)
+            {
+                musicSource = audio.sfxSource; 
+            }
+            else
+            {
+                
+                musicSource = FindObjectOfType<AudioSource>();
+            }
+        }
+
         if (musicSource != null)
+        {
             musicSource.Stop();
+        }
+
         Time.timeScale = 0f;
     }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject spawn = GameObject.Find("SpawnPoint");
@@ -73,7 +96,8 @@ public class GameManager : MonoBehaviour
                 spawned = null;
             }
 
-            
+            musicSource = GameObject.FindWithTag("Music")?.GetComponent<AudioSource>();
+
             AudioManager audio = FindObjectOfType<AudioManager>();
             if (audio != null)
                 Destroy(audio.gameObject);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class SwordPlayerController : MonoBehaviour
 {
@@ -13,6 +14,19 @@ public class SwordPlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 originalScale;
     private bool isGrounded;
+
+    [Header("Shuriken UI")]
+    public Image shurikenCooldownImage;
+
+    [Header("Shuriken Cooldown")]
+    public float shurikenCooldown = 3f;
+    private float shurikenTimer = -999f;
+
+    [Header("Shuriken")]
+    public GameObject shurikenPrefab;
+    public Transform shurikenSpawnPoint;
+    public float shurikenForce = 10f;
+    public float shurikenSpeed = 10f;
 
     [Header("Yürüyüş Sesi")]  //Karakter sesleri için ai tarafından yardım alındı
     public AudioSource walkAudioSource;
@@ -104,6 +118,23 @@ public class SwordPlayerController : MonoBehaviour
                 AudioManager.Instance.sfxSource.PlayOneShot(swordSwingSound, 0.6f);
             }
         }
+        
+        shurikenTimer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.F) && shurikenTimer <= 0f)
+        {
+            ThrowShuriken();
+            shurikenTimer = shurikenCooldown;
+        }
+        if (shurikenCooldownImage != null)
+        {
+            float cooldownProgress = 1f - (shurikenTimer / shurikenCooldown);
+            cooldownProgress = Mathf.Clamp01(cooldownProgress);
+            shurikenCooldownImage.fillAmount = cooldownProgress;
+        }
+
+
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -125,7 +156,7 @@ public class SwordPlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("FootstepWood"))
+        if (other.CompareTag("WoodFloor"))
         {
             currentSurface = "Wood";
         }
@@ -133,7 +164,7 @@ public class SwordPlayerController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("FootstepWood"))
+        if (other.CompareTag("WoodFloor"))
         {
             currentSurface = "Default";
         }
@@ -167,4 +198,31 @@ public class SwordPlayerController : MonoBehaviour
             }
         }
     }
+
+    void ThrowShuriken()
+    {
+        if (shurikenPrefab != null && shurikenSpawnPoint != null)
+        {
+            GameObject shuriken = Instantiate(shurikenPrefab, shurikenSpawnPoint.position, Quaternion.identity);
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (mousePos - shurikenSpawnPoint.position);
+            
+            direction = direction.normalized; 
+
+            Rigidbody2D rb = shuriken.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = direction * shurikenSpeed; 
+
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                shuriken.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            }
+
+            shuriken.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        }
+    }
+
+
+
 }

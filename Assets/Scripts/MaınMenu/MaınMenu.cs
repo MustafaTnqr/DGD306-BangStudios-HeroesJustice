@@ -14,9 +14,7 @@ public class MainMenu : MonoBehaviour  //Menude seslerin düzgün çalmasý için del
 
     public void OpenOptions()
     {
-        StartCoroutine(PlayClickOnly(() => {
-            Debug.Log("Options menüsü henüz yapýlmadý.");
-        }));
+        StartCoroutine(PlayClickAndLoad("Options"));
     }
 
     public void OpenCredits()
