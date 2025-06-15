@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShurikenProjectile : MonoBehaviour
 {
-    public float speed = 10f;
+    public float speed = 20f;
     public int damage = 3;
     public float lifeTime = 3f;
 
@@ -23,7 +23,7 @@ public class ShurikenProjectile : MonoBehaviour
         transform.Translate(direction * speed * Time.deltaTime);
         
  
-        transform.Rotate(0f, 0f, -720f * Time.deltaTime); // Saat yönünde hýzlý döner
+        transform.Rotate(0f, 0f, -720f * Time.deltaTime); 
         
 
     }
@@ -32,30 +32,37 @@ public class ShurikenProjectile : MonoBehaviour
     {
         if (collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
         {
+            
             if (collision.CompareTag("Enemy"))
             {
+                if (AudioManager.Instance != null)
+                {
+                    if (collision.GetComponent<ZombieIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.zombieDeath);
+                    else if (collision.GetComponent<SkeletonIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.skeletonDeath);
+                    else if (collision.GetComponent<BatIdentifier>() != null)
+                        AudioManager.Instance.PlaySFX(AudioManager.Instance.batDeath);
+                }
+
                 Destroy(collision.gameObject);
             }
+
+            
             if (collision.CompareTag("Boss"))
             {
                 BossHealth boss = collision.GetComponent<BossHealth>();
                 if (boss != null)
                     boss.TakeDamage(damage);
-            }
 
-            if (collision.CompareTag("Boss"))
-            {
                 MainBossHealth mainBoss = collision.GetComponent<MainBossHealth>();
                 if (mainBoss != null)
                     mainBoss.TakeDamage(damage);
             }
 
-            else
-            {
-                Destroy(collision.gameObject);
-            }
-
-            Destroy(gameObject); 
+            
+            Destroy(gameObject);
         }
     }
+
 }

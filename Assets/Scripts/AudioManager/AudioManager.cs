@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AudioManager : MonoBehaviour //AUDIO MANAGER AI DAN DESTEK ALINARAK YAPILDI
+public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    [Header("Ses Kanallarý")]
+    [Header("Ses KanallarÄ±")]
     public AudioSource sfxSource;
     public AudioSource musicSource;
 
@@ -16,11 +16,11 @@ public class AudioManager : MonoBehaviour //AUDIO MANAGER AI DAN DESTEK ALINARAK
     public AudioClip pistolShot;
     public AudioClip swordSwingSound;
 
-    [Header("Yürüyüþ Sesleri (Opsiyonel)")]
+    [Header("YÃ¼rÃ¼yÃ¼ÅŸ Sesleri")]
     public AudioClip defaultWalk;
     public AudioClip woodWalk;
 
-    [Header("Arka Plan Müzik")]
+    [Header("Arka Plan MÃ¼zik")]
     public AudioClip backgroundMusic;
     public AudioClip bossMusic;
 
@@ -39,21 +39,33 @@ public class AudioManager : MonoBehaviour //AUDIO MANAGER AI DAN DESTEK ALINARAK
         }
     }
 
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     private void Start()
     {
+        
+        float savedMusic = PlayerPrefs.GetFloat("MusicVolumeLevel", 1f);
+        float savedSFX = PlayerPrefs.GetFloat("SFXVolumeLevel", 1f);
+
+        SetMusicVolume(savedMusic);
+        SetSFXVolume(savedSFX);
+
         PlayMusic(backgroundMusic);
     }
 
-    public void PlaySFX(AudioClip clip, float volume = 1f)
+    public void PlaySFX(AudioClip clip)
     {
         if (clip != null && sfxSource != null)
-            sfxSource.PlayOneShot(clip, volume);
+        {
+            sfxSource.PlayOneShot(clip, sfxSource.volume);
+        }
     }
+    public void PlaySFX(AudioClip clip, float volume)
+    {
+        if (clip != null && sfxSource != null)
+        {
+            sfxSource.PlayOneShot(clip, volume);
+        }
+    }
+
 
     public void PlayMusic(AudioClip music)
     {
@@ -73,15 +85,24 @@ public class AudioManager : MonoBehaviour //AUDIO MANAGER AI DAN DESTEK ALINARAK
         }
     }
 
+    public void SetMusicVolume(float volume)
+    {
+        if (musicSource != null)
+            musicSource.volume = volume;
+
+        PlayerPrefs.SetFloat("MusicVolumeLevel", volume);
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        if (sfxSource != null)
+            sfxSource.volume = volume;
+
+        PlayerPrefs.SetFloat("SFXVolumeLevel", volume);
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
-        if (scene.name == "Level2")
-        {
-            StopMusic();
-        }
-
-        
         if (scene.name == "CharacterSelection")
         {
             Destroy(gameObject);

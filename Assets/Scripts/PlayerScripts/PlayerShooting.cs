@@ -56,10 +56,11 @@ public class PlayerShooting : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.velocity = direction * bulletSpeed;
 
-        
+
         if (AudioManager.Instance != null && AudioManager.Instance.pistolShot != null)
         {
-            AudioSource.PlayClipAtPoint(AudioManager.Instance.pistolShot, transform.position, 0.1f);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.pistolShot);
         }
+
     }
 }

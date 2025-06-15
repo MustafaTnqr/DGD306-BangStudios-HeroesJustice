@@ -9,18 +9,19 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
-    private AudioSource walkAudioSource;
-    private bool isGrounded = true;
     private Vector3 originalScale;
     private string currentSurface = "Default";
 
-    public bool canMove = true; 
+    public bool canMove = true;
+    private bool isGrounded = true;
+
+    private float walkSoundCooldown = 0.3f;
+    private float walkSoundTimer = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        walkAudioSource = GetComponent<AudioSource>();
         originalScale = transform.localScale;
     }
 
@@ -28,19 +29,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!canMove)
         {
-            rb.velocity = Vector2.zero;                        
-            rb.angularVelocity = 0f;                           
-            rb.constraints = RigidbodyConstraints2D.FreezeAll; 
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
             animator.SetBool("isWalking", false);
-
-            if (walkAudioSource.isPlaying)
-                walkAudioSource.Stop();
-
             return;
         }
         else
         {
-            
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
@@ -61,31 +57,17 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isJumping", true);
         }
 
-        if (Mathf.Abs(moveInput) > 0.1f && isGrounded)
+        // Yürüyüş sesi çal
+        walkSoundTimer -= Time.deltaTime;
+        if (Mathf.Abs(moveInput) > 0.1f && isGrounded && walkSoundTimer <= 0f)
         {
-            if (!walkAudioSource.isPlaying)
+            if (AudioManager.Instance != null)
             {
-                if (currentSurface == "Wood")
-                {
-                    walkAudioSource.clip = woodWalkClip;
-                    walkAudioSource.volume = 0.1f;
-                }
-                else
-                {
-                    walkAudioSource.clip = defaultWalkClip;
-                    walkAudioSource.volume = 0.03f;
-                }
+                AudioClip clipToPlay = (currentSurface == "Wood") ? woodWalkClip : defaultWalkClip;
+                AudioManager.Instance.PlaySFX(clipToPlay, 0.1f);
+            }
 
-                walkAudioSource.loop = true;
-                walkAudioSource.Play();
-            }
-        }
-        else
-        {
-            if (walkAudioSource.isPlaying)
-            {
-                walkAudioSource.Stop();
-            }
+            walkSoundTimer = walkSoundCooldown;
         }
     }
 
