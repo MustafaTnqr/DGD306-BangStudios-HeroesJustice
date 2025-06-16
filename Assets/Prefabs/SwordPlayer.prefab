@@ -350,16 +350,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   attackPoint: {fileID: 8984617667616896953}
-  shurikenCooldownImage: {fileID: 5364459798479532257}
-  shurikenThrowSound: {fileID: 8300000, guid: bedd5684e0e198343868e13f6fd5cdcc, type: 3}
-  shurikenCooldown: 3
+  swordSwingSound: {fileID: 8300000, guid: 895c95918d54b3e4d918b5afb5a6a199, type: 3}
   shurikenPrefab: {fileID: 7491037466107849472, guid: 035ec6afe8ba01e4db90c7bd34949245, type: 3}
   shurikenSpawnPoint: {fileID: 1593752040616707615}
   shurikenForce: 20
   shurikenSpeed: 17
+  shurikenCooldown: 3
+  shurikenCooldownImage: {fileID: 5364459798479532257}
+  shurikenThrowSound: {fileID: 8300000, guid: bedd5684e0e198343868e13f6fd5cdcc, type: 3}
   defaultWalkClip: {fileID: 8300000, guid: 32342144a39eb1f4bade6de2268844c4, type: 3}
   woodWalkClip: {fileID: 8300000, guid: 1d2a6eb2780812842b5edab95b1bfcb9, type: 3}
-  swordSwingSound: {fileID: 8300000, guid: 895c95918d54b3e4d918b5afb5a6a199, type: 3}
 --- !u!114 &5133971203300474277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2487461954220927064}
   - component: {fileID: 6651516845914913083}
-  - component: {fileID: 697216269539609093}
+  - component: {fileID: 894270721104520742}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &697216269539609093
+--- !u!114 &894270721104520742
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -750,17 +750,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 7416566604868214051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &8319358777477199067
 GameObject:
   m_ObjectHideFlags: 0

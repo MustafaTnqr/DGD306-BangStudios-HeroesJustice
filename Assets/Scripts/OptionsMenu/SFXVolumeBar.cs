@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SFXVolumeBar : MonoBehaviour
 {
     public Image[] segments;
     private float volume;
+    public bool isSelected = false;
+    private float inputCooldown = 0.25f;
+    private float inputTimer = 0f;
 
     void Start()
     {
@@ -14,24 +18,41 @@ public class SFXVolumeBar : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (!isSelected) return;
+
+        inputTimer -= Time.unscaledDeltaTime;
+
+        float right = Gamepad.current?.dpad.right.ReadValue() ?? 0f;
+        float left = Gamepad.current?.dpad.left.ReadValue() ?? 0f;
+        float joy = Gamepad.current?.leftStick.x.ReadValue() ?? 0f;
+
+        if (inputTimer <= 0f)
         {
-            volume = Mathf.Clamp01(volume + 0.1f);
-            ApplyVolume();
+            if (right > 0.5f || joy > 0.5f)
+            {
+                volume = Mathf.Clamp01(volume + 0.1f);
+                ApplyVolume();
+                inputTimer = inputCooldown;
+            }
+
+            if (left > 0.5f || joy < -0.5f)
+            {
+                volume = Mathf.Clamp01(volume - 0.1f);
+                ApplyVolume();
+                inputTimer = inputCooldown;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            volume = Mathf.Clamp01(volume - 0.1f);
-            ApplyVolume();
-        }
+        transform.localScale = Vector3.Lerp(
+    transform.localScale,
+    isSelected ? Vector3.one * 1.1f : Vector3.one,
+    Time.unscaledDeltaTime * 8f
+);
     }
 
     void ApplyVolume()
     {
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.SetSFXVolume(volume);
-
+        AudioManager.Instance?.SetSFXVolume(volume);
         PlayerPrefs.SetFloat("SFXVolumeLevel", volume);
         UpdateBar();
     }

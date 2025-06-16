@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
+public class Health : MonoBehaviour
 {
+    [Header("Health")]
     public float startingHealth = 3f;
     public float currentHealth { get; private set; }
+
+    [Header("Death Animation")]
+    [Tooltip("Ölüm animasyonunuzun toplam süresi (saniye)")]
+    public float deathAnimationDuration = 1.2f;
+
     public bool isDead { get; private set; }
+
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private bool invulnerable = false;
 
-    private SpriteRenderer spriteRenderer; 
-
-    private void Awake()
+    void Awake()
     {
         currentHealth = startingHealth;
         animator = GetComponent<Animator>();
-
-        
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -28,7 +33,6 @@ public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
 
         if (currentHealth > 0)
         {
-            
             StartCoroutine(Invulnerability());
         }
         else
@@ -46,47 +50,48 @@ public class Health : MonoBehaviour  //Youtube videosundan bakılarak yapıldı
     private void Die()
     {
         isDead = true;
+
+        // 1) Ölüm animasyonunu tetikle
         animator.SetBool("isDead", true);
 
-        
-        if (TryGetComponent<PlayerMovement>(out var movement))
-            movement.enabled = false;
+        // 2) Hareket/girdi devre dışı
+        if (TryGetComponent<PlayerMovement>(out var move)) move.enabled = false;
+        if (TryGetComponent<SwordPlayerController>(out var sword)) sword.enabled = false;
+        if (TryGetComponent<Rigidbody2D>(out var rb)) rb.velocity = Vector2.zero;
 
-        if (TryGetComponent<SwordPlayerController>(out var swordMovement))
-            swordMovement.enabled = false;
+        // 3) Animasyon süresince bekle, sonra death screen’i aç
+        StartCoroutine(DeathSequence());
+    }
 
-        if (TryGetComponent<Rigidbody2D>(out var rb))
-            rb.velocity = Vector2.zero;
+    private IEnumerator DeathSequence()
+    {
+        // Ölüm animasyonu oynarken zamanı normal bırak (Time.timeScale = 1)
+        yield return new WaitForSecondsRealtime(deathAnimationDuration);
 
-        
+        // Şimdi kullanıcıya death screen göster ve zamanı durdur
         GameManager gm = FindObjectOfType<GameManager>();
         if (gm != null && gm.deathScreenUI != null)
         {
             gm.deathScreenUI.SetActive(true);
         }
+        Time.timeScale = 0f;
     }
 
-    private System.Collections.IEnumerator Invulnerability()
+    private IEnumerator Invulnerability()
     {
         invulnerable = true;
-
-        // 🔥 Yanıp sönme efekti
-        float flashDelay = 0.1f;
+        float flashDelay = 0.1f, elapsed = 0f;
         int flashCount = 5;
 
         for (int i = 0; i < flashCount; i++)
         {
             if (spriteRenderer != null)
-                spriteRenderer.color = new Color(1f, 0f, 0f, 1f); 
-
+                spriteRenderer.color = Color.red;
             yield return new WaitForSeconds(flashDelay);
-
             if (spriteRenderer != null)
-                spriteRenderer.color = Color.white; 
-
+                spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(flashDelay);
         }
-
         invulnerable = false;
     }
 }

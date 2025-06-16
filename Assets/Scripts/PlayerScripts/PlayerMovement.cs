@@ -40,8 +40,11 @@ public class PlayerMovement : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
+        // --- D-Pad üzerinden dijital hareket ---
         float moveInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical"); // dilerseniz aşağı yukarı hareket için de kullanırsınız
 
+        // Yön ve animasyon
         if (moveInput > 0)
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (moveInput < 0)
@@ -50,14 +53,15 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         animator.SetBool("isWalking", Mathf.Abs(moveInput) > 0.01f);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // --- Jump: "Jump" Input Map (örneğin joystick button 1 / Fire2) ---
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isGrounded = false;
             animator.SetBool("isJumping", true);
         }
 
-        // Yürüyüş sesi çal
+        // Yürüyüş sesi
         walkSoundTimer -= Time.deltaTime;
         if (Mathf.Abs(moveInput) > 0.1f && isGrounded && walkSoundTimer <= 0f)
         {
@@ -66,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
                 AudioClip clipToPlay = (currentSurface == "Wood") ? woodWalkClip : defaultWalkClip;
                 AudioManager.Instance.PlaySFX(clipToPlay, 0.1f);
             }
-
             walkSoundTimer = walkSoundCooldown;
         }
     }

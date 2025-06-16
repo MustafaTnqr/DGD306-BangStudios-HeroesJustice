@@ -10,6 +10,7 @@ public class PlayerShooting : MonoBehaviour
 
     private Vector3 originalScale;
     private PlayerMovement playerMovement;
+    private int facingDirection = 1; // 1 = sağ, -1 = sol
 
     void Start()
     {
@@ -19,48 +20,51 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
-        
         if (playerMovement != null && !playerMovement.canMove)
             return;
 
-        if (Time.time >= nextFireTime && Input.GetMouseButton(0))
+        // Karakter yönünü güncelle (yalnızca sprite yönü için)
+        facingDirection = (transform.localScale.x > 0) ? 1 : -1;
+
+        // Ateş tuşuna basıldıysa
+        if (Time.time >= nextFireTime && Input.GetButton("Fire1"))
         {
-            Vector2 direction = GetMouseDirection();
-            RotateToMouse(direction);
-            if (direction.magnitude > 0.1f)
-            {
-                FireBullet(direction.normalized);
-                nextFireTime = Time.time + fireRate;
-            }
+            FireBullet();
+            nextFireTime = Time.time + fireRate;
         }
     }
 
-    Vector2 GetMouseDirection()
+    void FireBullet()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePos - firePoint.position;
-        return direction.normalized;
-    }
+        // 1) D-Pad’den anlık okuma:
+        float aimX = Input.GetAxisRaw("Horizontal");  // D-Pad x
+        float aimY = Input.GetAxisRaw("Vertical");    // D-Pad y
 
-    void RotateToMouse(Vector2 direction)
-    {
-        if (direction.x > 0)
-            transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
-        else if (direction.x < 0)
-            transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
-    }
+        Vector2 shootDir;
 
-    void FireBullet(Vector2 direction)
-    {
+        // 2) Eğer hiçbir yöne basılmıyorsa, karakterin baktığı yönde at
+        if (Mathf.Abs(aimX) < 0.1f && Mathf.Abs(aimY) < 0.1f)
+        {
+            shootDir = new Vector2(facingDirection, 0);
+        }
+        else
+        {
+            // D-pad’e basılmışsa o yöne atış yap
+            shootDir = new Vector2(aimX, aimY).normalized;
+        }
+
+        // 3) Mermiyi spawn et ve hızını ayarla
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.velocity = direction * bulletSpeed;
+        rb.velocity = shootDir * bulletSpeed;
 
+        // (Opsiyonel) Merminin rotasyonunu da shootDir’e göre ayarlamak istersen:
+        float angle = Mathf.Atan2(shootDir.y, shootDir.x) * Mathf.Rad2Deg;
+        bullet.transform.rotation = Quaternion.Euler(0, 0, angle);
 
+        // 4) Ses efekti
         if (AudioManager.Instance != null && AudioManager.Instance.pistolShot != null)
-        {
             AudioManager.Instance.PlaySFX(AudioManager.Instance.pistolShot);
-        }
-
     }
+
 }

@@ -20,13 +20,13 @@ public class ShurikenProjectile : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
-        
- 
-        transform.Rotate(0f, 0f, -720f * Time.deltaTime); 
-        
+        // World uzayýnda doðrusal hareket et
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
+        // Kendi etrafýnda dönme (spin) efekti
+        transform.Rotate(0f, 0f, -720f * Time.deltaTime);
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
